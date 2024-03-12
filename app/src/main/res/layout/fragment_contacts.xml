@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.ui.ContactsView">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:liftOnScroll="true"
+            android:elevation="3dp"
+            android:gravity="center">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBarContact"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineLarge"
+                android:clickable="true"
+                android:elevation="3dp"
+                android:focusable="true"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:title="@string/contact_app_bar_text" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/outlinedTextContact"
+                    android:layout_width="match_parent"
+                    android:padding="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/contact_name_add">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:id="@+id/txtContactNameAdd"
+                        android:maxLines="1"
+                        android:layout_height="wrap_content"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/outlinedTextField"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:hint="@string/contact_numero"
+                        app:helperText="Cod pais + numero: 51999999999">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtNumberContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:inputType="number|phone" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAddContact"
+                        style="?attr/materialIconButtonFilledTonalStyle"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        app:iconSize="34dp"
+                        android:contentDescription="@string/deleteitem"
+                        app:cornerRadius="60dp"
+                        app:icon="@drawable/iconex_line_two_tone_add_user"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/rclContacts"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_height="match_parent"/>
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</FrameLayout>

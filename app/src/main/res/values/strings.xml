@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">yape whatsapp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="deleteitem">deleteItem</string>
+    <string name="limpiar">Limpiar</string>
+    <string name="this_is_a_message_generate">This is a message generate</string>
+    <string name="_2024_02_08_08_30_11">2024-02-08 08:30:11</string>
+    <string name="title">Title</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="contact_numero">Numero</string>
+    <string name="contact_app_bar_text">Contactos</string>
+    <string name="contact_name">Juan Anthony</string>
+    <string name="contact_number">51994221382</string>
+    <string name="contact_name_add">Nombre</string>
+    <string name="menu_item_pago">Pagos</string>
+    <string name="menu_item_contact">Contactos</string>
+    <string name="menu_item_setting">Configuración</string>
+    <string name="paymentFilterAll">Todo</string>
+    <string name="paymentFilterYape">Yape</string>
+    <string name="paymentFilterPlin">Plin</string>
+    <string name="payment_filter_title">Filtrar</string>
+    <string name="pagos_de_hoy">Pagos de hoy</string>
+    <string name="por_fecha">Por Fecha</string>
+</resources>

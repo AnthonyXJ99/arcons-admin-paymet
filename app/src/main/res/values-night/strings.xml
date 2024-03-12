@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="limpiar">Limpiar</string>
+    <string name="this_is_a_message_generate">This is a message generate</string>
+    <string name="_2024_02_08_08_30_11">2024-02-08 08:30:11</string>
+    <string name="title">Title</string>
+    <string name="contact_numero">Numero</string>
+    <string name="contact_app_bar_text">Contactos</string>
+    <string name="contact_number">51994221382</string>
+    <string name="contact_name_add">Nombre</string>
+</resources>

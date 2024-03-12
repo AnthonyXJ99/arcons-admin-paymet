@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/paymentsReceived"
+        android:enabled="true"
+        android:icon="@drawable/iconex_line_two_tone_coins"
+        android:title="@string/menu_item_pago"/>
+    <item
+        android:id="@+id/contactsView"
+        android:enabled="true"
+        android:icon="@drawable/iconex_line_two_tone_call"
+        android:title="@string/menu_item_contact"/>
+    <item
+        android:id="@+id/settingView"
+        android:enabled="true"
+        android:icon="@drawable/iconex_line_two_tone_settings"
+        android:title="@string/menu_item_setting"/>
+</menu>
