@@ -51,68 +51,75 @@ class NotificationListener : NotificationListenerService() {
             return
         }
 
-
-        CoroutineScope(ioDispatcher).launch {
-            val titleMessage = notiInfo.extras.getString(Notification.EXTRA_TITLE)
-            val messageContent = notiInfo.extras.getString(Notification.EXTRA_TEXT).toString()
-            val subMessage = notiInfo.extras.getString(Notification.EXTRA_SUB_TEXT)
-
-            val packageName = sbn.packageName ?: null
-            if( packageName== packageYape || packageName== packagePlin || packageName== packageInterbank || packageName== packagePrueba){
-                val postTime = sbn.postTime
-
-                val date = Date(postTime)
-                //val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                val dateMessage = date.let { SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it) }
-
-                if(titleMessage!=null) {
-
-                    contactDao.getAll().collect{ contacts->
-
-                        if (!contacts.isNullOrEmpty()){
-                            contacts.forEach { item ->
-                                val phoneNumber = item.number
-                                ContextCompat.getSystemService<SmsManager?>(
-                                    applicationContext,
-                                    SmsManager::class.java
-                                )?.sendTextMessage(phoneNumber, null, messageContent.toString(), null, null)
-
-                            }
-                            val message = MessageModel(
-                                title = titleMessage.toString(),
-                                message = messageContent.toString(),
-                                date = dateMessage.toString(),
-                                subMessage = subMessage.toString(),
-                                appName = packageName.toString()
-                            )
-                            messageDao.insert(message)
-                            Log.d("MYTAG","SE HA GUARDADO CORRECTAMENTE")
-                            delay(1500)
-                            cancelNotification(sbn.key)
-                            //cancelAllNotifications()
-                        }
-                    }
-                }
+        var titleMessage = notiInfo.extras.getString(Notification.EXTRA_TITLE)
+        var messageContent = notiInfo.extras.getString(Notification.EXTRA_TEXT)
+        var subMessage = notiInfo.extras.getString(Notification.EXTRA_SUB_TEXT)
 
 
+        var packageName = sbn.packageName ?: null
+        if( packageName== packageYape || packageName== packagePlin || packageName== packageInterbank || packageName== packagePrueba ){
+            val postTime = sbn.postTime
+
+
+            val date = Date(postTime)
+            //val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val dateMessage = date.let { SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it) }
+            //&& titleMessage.toString().contains("Confirmación de Pago")|| titleMessage.toString().contains("")
+
+            if (titleMessage.isNullOrEmpty() || messageContent.isNullOrEmpty()){
+                Log.d("DATAAAAAAAAAAAAAAA1","$titleMessage, $messageContent")
+                return
+            }else{
+                Log.d("DATAAAAAAAAAAAAAAA2","$titleMessage, $messageContent")
             }
 
+            CoroutineScope(ioDispatcher).launch {
+                contactDao.getAll().collect{ contacts->
+                    if(titleMessage.isNullOrEmpty()){
+                        return@collect
+                    }
+                    if (!contacts.isNullOrEmpty()){
+                        contacts.forEach { item ->
+                            val phoneNumber = item.number
+                            ContextCompat.getSystemService<SmsManager?>(
+                                applicationContext,
+                                SmsManager::class.java
+                            )?.sendTextMessage(phoneNumber, null, messageContent.toString(), null, null)
 
+                        }
+                        val message = MessageModel(
+                            title = titleMessage.toString(),
+                            message = messageContent.toString(),
+                            date = dateMessage.toString(),
+                            subMessage = subMessage.toString(),
+                            appName = packageName.toString()
+                        )
+                        messageDao.insert(message)
+                        Log.d("MYTAG","SE HA GUARDADO CORRECTAMENTE")
+                        delay(1500)
+                        cancelNotification(sbn.key)
+                        /**clear**/
+                        titleMessage=null
+//                        messageContent=""
+//                        subMessage=""
+//                        packageName=""
+                    }
+                }
+            }
         }
-
     }
 
 
     override fun onNotificationRemoved(sbn: StatusBarNotification?) {
         super.onNotificationRemoved(sbn)
 
-        val notiInfo = sbn?.notification ?: return
-
-        val title = notiInfo.extras.getString(Notification.EXTRA_TITLE)
-        val text = notiInfo.extras.getString(Notification.EXTRA_TEXT)
-        val subText = notiInfo.extras.getString(Notification.EXTRA_SUB_TEXT)
-
-        Log.d("NotificationListener","onNotificationRemoved - title : $title, text : $text, subText : $subText")
+//        val notiInfo = sbn?.notification ?: return
+//
+//        val title = notiInfo.extras.getString(Notification.EXTRA_TITLE)
+//        val text = notiInfo.extras.getString(Notification.EXTRA_TEXT)
+//        val subText = notiInfo.extras.getString(Notification.EXTRA_SUB_TEXT)
+//
+//        Log.d("NotificationListener","onNotificationRemoved - title : $title, text : $text, subText : $subText")
     }
 
     private fun checkPermission():Boolean{

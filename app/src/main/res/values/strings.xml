@@ -39,4 +39,5 @@
     <string name="payment_filter_title">Filtrar</string>
     <string name="pagos_de_hoy">Pagos de hoy</string>
     <string name="por_fecha">Por Fecha</string>
+    <string name="pdf_download">Descargar</string>
 </resources>

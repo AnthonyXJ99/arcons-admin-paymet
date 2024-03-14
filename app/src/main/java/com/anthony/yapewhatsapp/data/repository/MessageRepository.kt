@@ -17,4 +17,5 @@ class MessageRepository(private val dao: MessageDao) {
     fun deleteAll() =dao.deleteAll()
 
     fun filterByApp(apps:List<String>,today:String)=dao.filterByApp(apps,today)
+    fun filterByDate(apps:List<String>,start:String,end:String)=dao.filterByDate(apps,start,end)
 }

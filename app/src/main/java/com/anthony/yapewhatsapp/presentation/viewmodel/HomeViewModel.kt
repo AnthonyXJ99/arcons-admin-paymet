@@ -22,6 +22,9 @@ class HomeViewModel @Inject constructor(
     fun filterByApp(apps:List<String>,today:String): Flow<List<MessageModel>?> {
         return repository.filterByApp(apps,today)
     }
+    fun filterByDate(apps:List<String>,start:String,end:String): Flow<List<MessageModel>?>{
+        return repository.filterByDate(apps,start,end)
+    }
 
     private var deleteMessage: MessageModel? =null
 

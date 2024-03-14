@@ -3,12 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/welcomeView">
+    app:startDestination="@id/paymentsReceived">
     <fragment
         android:id="@+id/paymentsReceived"
         android:name="com.anthony.yapewhatsapp.presentation.ui.PaymentsReceived"
         android:label="fragment_payments_received"
-        tools:layout="@layout/fragment_payments_received" />
+        tools:layout="@layout/fragment_payments_received" >
+        <action
+            android:id="@+id/action_paymentsReceived_to_reportView"
+            app:destination="@id/reportView"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/contactsView"
         android:name="com.anthony.yapewhatsapp.presentation.ui.ContactsView"
@@ -40,10 +48,12 @@
         <action
             android:id="@+id/action_activateConfirmView_to_paymentsReceived"
             app:destination="@id/paymentsReceived"
-            app:enterAnim="@animator/nav_default_enter_anim"
-            app:exitAnim="@animator/nav_default_exit_anim"
-            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
-            app:popExitAnim="@animator/nav_default_pop_exit_anim" />
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@animator/nav_default_pop_exit_anim"
+            app:popUpTo="@id/paymentsReceived"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/loginView"
@@ -53,9 +63,9 @@
         <action
             android:id="@+id/action_loginView_to_activateConfirmView"
             app:destination="@id/activateConfirmView"
-            app:enterAnim="@animator/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_pop_enter_anim"
-            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
@@ -67,17 +77,22 @@
             android:id="@+id/action_welcomeView_to_loginView2"
             app:destination="@id/loginView"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@animator/nav_default_exit_anim"
-            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_welcomeView_to_registerView"
             app:destination="@id/registerView"
-            app:enterAnim="@animator/nav_default_enter_anim"
-            app:exitAnim="@animator/nav_default_exit_anim"
-            app:popEnterAnim="@animator/nav_default_pop_enter_anim"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
+    <fragment
+        android:id="@+id/reportView"
+        android:name="com.anthony.yapewhatsapp.presentation.ui.ReportView"
+        android:label="fragment_report_view"
+        tools:layout="@layout/fragment_report_view" />
 
 
 </navigation>

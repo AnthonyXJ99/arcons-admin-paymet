@@ -5,16 +5,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.anthony.yapewhatsapp.R
+import com.anthony.yapewhatsapp.databinding.FragmentActivateConfirmViewBinding
 
 
 class ActivateConfirmView : Fragment() {
+    private lateinit var binding:FragmentActivateConfirmViewBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_activate_confirm_view, container, false)
+        binding= FragmentActivateConfirmViewBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val navController = Navigation.findNavController(view);
+        binding.btnGoToHome.setOnClickListener {
+            navController.navigate(R.id.action_activateConfirmView_to_paymentsReceived)
+        }
     }
 
 }

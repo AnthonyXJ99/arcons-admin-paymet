@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.ReportView">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="3dp"
+            android:gravity="center"
+            app:liftOnScroll="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBarReport"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:clickable="true"
+                android:elevation="3dp"
+                android:focusable="true"
+                app:navigationIcon="@drawable/iconex_line_two_tone_left_2"
+                app:titleTextAppearance="@style/TextAppearance.Material3.HeadlineLarge" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:padding="15dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextStartDate"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:padding="10dp"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/iconex_line_two_tone_calendar"
+                app:endIconCheckable="true"
+                android:layout_height="wrap_content"
+                android:hint="Desde">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/inputStartDate"
+                    android:maxLines="1"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:layout_height="65dp"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/outlinedTextEndDate"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/iconex_line_two_tone_calendar"
+                android:padding="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_height="wrap_content"
+                android:hint="Hasta">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/inputEndDate"
+                    android:maxLines="1"
+                    android:inputType="none"
+                    android:focusable="false"
+                    android:layout_height="65dp"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <WebView
+            android:id="@+id/reportGeneratedView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="30dp"
+        android:id="@+id/btnSharePdf"
+        android:text="@string/pdf_download"
+        app:icon="@drawable/iconex_line_two_tone_cloud_download" />
+
+</FrameLayout>

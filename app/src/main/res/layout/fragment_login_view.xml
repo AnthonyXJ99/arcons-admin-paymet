@@ -4,110 +4,143 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg3"
     tools:context=".presentation.ui.auth.LoginView">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#BF2B2E41"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <com.google.android.material.appbar.AppBarLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="3dp"
-                android:gravity="center"
-                app:liftOnScroll="true">
+                android:layout_height="?actionBarSize"
+                android:orientation="horizontal">
 
-                <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/topAppBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?actionBarSize"
-                    android:clickable="true"
-                    app:navigationIcon="@drawable/iconex_line_two_tone_left_2"
-                    android:elevation="3dp"
-                    android:focusable="true" />
-            </com.google.android.material.appbar.AppBarLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBackToWelcome"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:contentDescription="regresar"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/iconex_line_two_tone_left_2"
+                    app:iconSize="24dp"
+                    app:iconTint="@color/white" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
                 android:layout_marginTop="10dp"
-                >
+
+                android:orientation="vertical">
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/textView2"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:letterSpacing="0.15"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="10dp"
+                    android:text="Login"
                     android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
-                    android:text="Login" />
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="85dp"
-                    android:layout_weight="2"
-                    app:cardCornerRadius="30dp"
-                    app:strokeColor="#00FFFFFF">
+                    android:layout_weight="3"
+                    android:elevation="5dp"
+                    app:cardBackgroundColor="@color/md_theme_light_background"
+                    app:cardCornerRadius="25dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="20dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/login_text_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="10dp"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="Correo"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textColor="@color/md_theme_dark_onSecondary"
+                            android:textStyle="bold" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/outlinedTextEmail"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:hint="Correo"
-                            android:padding="10dp">
+                            android:padding="10dp"
+                            android:textColorHint="@color/md_theme_dark_onSecondary"
+                            app:boxBackgroundColor="@color/md_theme_light_inversePrimary"
+                            app:boxCornerRadiusBottomEnd="10dp"
+                            app:boxCornerRadiusBottomStart="25dp"
+                            app:boxCornerRadiusTopEnd="25dp"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:boxStrokeColor="@color/md_theme_light_inversePrimary"
+                            app:boxStrokeWidth="0dp"
+                            app:boxStrokeWidthFocused="0dp"
+                            app:cursorColor="@color/md_theme_light_onSecondaryContainer">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/txtLoginEmail"
                                 android:layout_width="match_parent"
                                 android:layout_height="70dp"
-                                android:maxLines="1" />
+                                android:letterSpacing="0.2"
+                                android:maxLines="1"
+                                android:paddingStart="25dp"
+                                android:paddingEnd="25dp"
+                                android:textColor="@color/md_theme_light_onSecondaryContainer"
+                                android:textColorHint="@color/md_theme_light_onSecondaryContainer"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/outlinedTextDevice"
+                        <CheckBox
+                            android:id="@+id/chkTerminos"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            style="@style/ThemeOverlay.Material3.TextInputEditText.FilledBox"
-                            android:layout_marginTop="25dp"
-                            android:layout_marginEnd="10dp"
-                            android:hint="Device"
-                            android:padding="10dp">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/txtLoginDevice"
-                                android:layout_width="match_parent"
-                                style="@style/ThemeOverlay.Material3.TextInputEditText.OutlinedBox.Dense"
-                                android:layout_height="70dp"
-                                android:maxLines="1" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
-
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnLogin"
-                            android:layout_width="match_parent"
-                            style="@style/Widget.Material3.Button.TonalButton"
-                            android:layout_height="65dp"
-                            android:layout_marginTop="30dp"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:text="Login" />
+                            android:autoLink="web"
+                            android:linksClickable="true"
+                            android:text="Aceptar Términos y Condiciones"
+                            android:textColor="@color/md_theme_dark_onSecondary"
+                            android:textColorLink="@color/md_theme_dark_outline" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnStartSession"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="66dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginEnd="10dp"
+                            android:backgroundTint="@color/md_theme_dark_onSecondary"
+                            android:text="Iniciar Sesión"
+                            android:textColor="@color/white" />
 
                     </LinearLayout>
 
@@ -116,5 +149,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </RelativeLayout>

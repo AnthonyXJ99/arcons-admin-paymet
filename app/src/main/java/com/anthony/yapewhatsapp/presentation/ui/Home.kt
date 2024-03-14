@@ -6,15 +6,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.anthony.yapewhatsapp.R
 import com.anthony.yapewhatsapp.databinding.ActivityMainBinding
-import com.anthony.yapewhatsapp.presentation.viewmodel.HomeViewModel
 import com.anthony.yapewhatsapp.service.NotificationListener
 import com.anthony.yapewhatsapp.service.NotificationWorker
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,11 +24,6 @@ class Home : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private val REQUEST_CODE_NOTIFICATIONS= 123
     private var foreGroundServiceIntent: Intent? =null
-
-
-    // viewModel
-    private val homeViewModel by viewModels<HomeViewModel>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
@@ -38,15 +32,13 @@ class Home : AppCompatActivity() {
         /**navigation**/
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
+
         binding.bottomNavigation.setupWithNavController(navController)
 
-
-        //binding.bottomNavigation.isVisible=false
+        /**isSessionActive**/
+        binding.bottomNavigation.isVisible=true
 
         /**Notification permission**/
-
-
-
         val permissionStatus = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             applicationContext.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
         } else {

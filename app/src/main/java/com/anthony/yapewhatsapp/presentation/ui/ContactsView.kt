@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -51,25 +52,22 @@ class ContactsView : Fragment(),ContactCallback {
 
         /**add contact**/
         binding.btnAddContact.setOnClickListener {
+            if (binding.txtNumberContact.text.isNullOrBlank()){
+                Toast.makeText(requireContext().applicationContext,"El numero es obligatorio",Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            val number= binding.txtNumberContact.text
+            var name= ""
+
+            name = if(binding.txtContactNameAdd.text.isNullOrBlank()){
+                number.toString()
+            }else{
+                binding.txtContactNameAdd.text.toString()
+            }
+
             lifecycleScope.launch(Dispatchers.IO){
-
-                if (!binding.txtNumberContact.text.isNullOrBlank()){
-                    val number= binding.txtNumberContact.text
-                    val name= binding.txtContactNameAdd.text
-
-                    if(number!=null ){
-                        var newName=""
-                        newName = if(name.toString().isNotEmpty()){
-                            name.toString()
-                        }else{
-                            number.toString()
-                        }
-                        val contact= Contact(name=newName.toString(), number = number.toString())
-                        contactViewModel.insertContact(contact)
-                    }
-                }
-
-
+                val contact= Contact(name=name.toString(), number = number.toString())
+                contactViewModel.insertContact(contact)
             }
             clearForm()
         }

@@ -25,4 +25,7 @@ interface MessageDao {
 
     @Query("SELECT * FROM message_table WHERE app_name IN (:apps) AND date>=:today")
     fun filterByApp(apps:List<String>,today:String):Flow<List<MessageModel>?>
+
+    @Query("SELECT * FROM message_table WHERE app_name IN (:apps) AND date BETWEEN :start AND :end")
+    fun filterByDate(apps:List<String>,start:String,end:String): Flow<List<MessageModel>>
 }
