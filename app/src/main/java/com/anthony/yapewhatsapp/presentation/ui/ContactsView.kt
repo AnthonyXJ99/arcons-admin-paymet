@@ -14,6 +14,7 @@ import com.anthony.yapewhatsapp.domain.model.Contact
 import com.anthony.yapewhatsapp.presentation.ui.adapter.ContactAdapter
 import com.anthony.yapewhatsapp.presentation.ui.adapter.ContactCallback
 import com.anthony.yapewhatsapp.presentation.viewmodel.ContactViewModel
+import com.anthony.yapewhatsapp.util.TextFieldValidation
 import com.anthony.yapewhatsapp.util.collectFlow
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +43,7 @@ class ContactsView : Fragment(),ContactCallback {
         binding.rclContacts.adapter=adapter
 
 
+        binding.txtNumberContact.addTextChangedListener(TextFieldValidation(binding.txtNumberContact,binding.txtNumberContact,binding.outlinedTextFieldNumberContact))
         /**get contacts**/
 
         lifecycleScope.collectFlow(contactViewModel.getAllContacts){contacts ->
@@ -49,6 +51,7 @@ class ContactsView : Fragment(),ContactCallback {
                 adapter.submitList(contacts)
             }
         }
+
 
         /**add contact**/
         binding.btnAddContact.setOnClickListener {

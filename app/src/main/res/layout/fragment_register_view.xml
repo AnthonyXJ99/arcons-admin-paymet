@@ -112,6 +112,7 @@
                                 android:id="@+id/registerInputPhone"
                                 android:layout_width="match_parent"
                                 android:layout_height="70dp"
+                                android:focusable="true"
                                 android:inputType="number|phone"
                                 android:letterSpacing="0.2"
                                 android:maxLines="1"
@@ -185,6 +186,7 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btnRegister"
+                            android:visibility="visible"
                             style="@style/Widget.Material3.Button.TonalButton"
                             android:layout_width="match_parent"
                             android:layout_height="66dp"
@@ -194,6 +196,15 @@
                             android:backgroundTint="@color/md_theme_dark_onSecondary"
                             android:text="Iniciar Sesión"
                             android:textColor="@color/white" />
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:layout_width="wrap_content"
+                            android:id="@+id/circularLoading"
+                            app:indicatorColor="@color/md_theme_dark_onSecondary"
+                            android:visibility="gone"
+                            android:indeterminate="true"
+                            android:layout_marginTop="30dp"
+                            android:layout_height="wrap_content" />
 
                     </LinearLayout>
 

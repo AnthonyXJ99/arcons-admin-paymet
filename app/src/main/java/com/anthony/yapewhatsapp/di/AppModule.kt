@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.room.Room
 import com.anthony.yapewhatsapp.data.dao.ContactDao
 import com.anthony.yapewhatsapp.data.dao.MessageDao
+import com.anthony.yapewhatsapp.data.dao.UserDao
 import com.anthony.yapewhatsapp.data.database.MessageDatabase
 import com.anthony.yapewhatsapp.data.repository.ContactRepository
 import com.anthony.yapewhatsapp.data.repository.MessageRepository
+import com.anthony.yapewhatsapp.data.repository.UserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,4 +47,13 @@ object AppModule {
     @Provides
     @Singleton
     fun provideContactRepository(dao:ContactDao):ContactRepository=ContactRepository(dao)
+
+
+    @Provides
+    @Singleton
+    fun provideUserDao(db:MessageDatabase):UserDao=db.userDao()
+
+    @Provides
+    @Singleton
+    fun provideUserRepository(dao:UserDao):UserRepository = UserRepository(dao)
 }

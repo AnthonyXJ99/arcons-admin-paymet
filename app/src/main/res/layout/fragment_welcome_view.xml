@@ -31,17 +31,18 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGoToRegister"
-        android:layout_width="wrap_content"
         style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_width="wrap_content"
         android:layout_height="65dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="76dp"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
-        android:layout_marginBottom="75dp"
-        android:layout_marginStart="20dp"
-        android:text="Registrarme"
+        android:text="Iniciar"
+        app:icon="@drawable/iconex_line_two_tone_right_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnGotoLogin"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
@@ -49,6 +50,7 @@
         style="@style/Widget.Material3.Button"
         android:layout_width="wrap_content"
         android:layout_height="65dp"
+        android:visibility="gone"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
         android:layout_marginEnd="20dp"

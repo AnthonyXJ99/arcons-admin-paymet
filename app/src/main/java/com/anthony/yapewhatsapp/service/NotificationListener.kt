@@ -14,13 +14,11 @@ import androidx.core.content.ContextCompat
 import com.anthony.yapewhatsapp.data.dao.ContactDao
 import com.anthony.yapewhatsapp.data.dao.MessageDao
 import com.anthony.yapewhatsapp.domain.model.MessageModel
-import com.anthony.yapewhatsapp.util.packageInterbank
-import com.anthony.yapewhatsapp.util.packagePlin
-import com.anthony.yapewhatsapp.util.packagePrueba
-import com.anthony.yapewhatsapp.util.packageYape
+import com.anthony.yapewhatsapp.util.lstPackages
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -52,15 +50,16 @@ class NotificationListener : NotificationListenerService() {
         }
 
         var titleMessage = notiInfo.extras.getString(Notification.EXTRA_TITLE)
-        var messageContent = notiInfo.extras.getString(Notification.EXTRA_TEXT)
-        var subMessage = notiInfo.extras.getString(Notification.EXTRA_SUB_TEXT)
+        val messageContent = notiInfo.extras.getString(Notification.EXTRA_TEXT)
+        val subMessage = notiInfo.extras.getString(Notification.EXTRA_SUB_TEXT)
 
 
-        var packageName = sbn.packageName ?: null
-        if( packageName== packageYape || packageName== packagePlin || packageName== packageInterbank || packageName== packagePrueba ){
+        val packageName = sbn.packageName ?: ""
+
+        Log.d("PAQUETE",packageName)
+        if( packageName in lstPackages ){
             val postTime = sbn.postTime
-
-
+            
             val date = Date(postTime)
             //val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val dateMessage = date.let { SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it) }
@@ -73,22 +72,40 @@ class NotificationListener : NotificationListenerService() {
                 Log.d("DATAAAAAAAAAAAAAAA2","$titleMessage, $messageContent")
             }
 
-            CoroutineScope(ioDispatcher).launch {
+            CoroutineScope(Dispatchers.IO).launch {
                 contactDao.getAll().collect{ contacts->
+                    if (!checkPayment(messageContent.toString())){
+                        return@collect
+                    }
                     if(titleMessage.isNullOrEmpty()){
                         return@collect
                     }
                     if (!contacts.isNullOrEmpty()){
-                        contacts.forEach { item ->
+
+//                        var cicloTerminado = Any()
+
+                       contacts.forEach { item ->
                             val phoneNumber = item.number
                             ContextCompat.getSystemService<SmsManager?>(
                                 applicationContext,
                                 SmsManager::class.java
                             )?.sendTextMessage(phoneNumber, null, messageContent.toString(), null, null)
 
+//                           synchronized(cicloTerminado) {
+//                               cicloTerminado = true
+//                               cicloTerminado.notify()
+//                           }
+
                         }
+
+//                        synchronized(cicloTerminado) {
+//                            while (cicloTerminado as Boolean) {
+//                                cicloTerminado.wait()
+//                            }
+//                        }
+
                         val message = MessageModel(
-                            title = titleMessage.toString(),
+                            title = titleMessage.toString() ,
                             message = messageContent.toString(),
                             date = dateMessage.toString(),
                             subMessage = subMessage.toString(),
@@ -103,6 +120,8 @@ class NotificationListener : NotificationListenerService() {
 //                        messageContent=""
 //                        subMessage=""
 //                        packageName=""
+                    }else{
+                        Toast.makeText(applicationContext,"Necesitas Agregar al menos un número en Contactos",Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -120,6 +139,7 @@ class NotificationListener : NotificationListenerService() {
 //        val subText = notiInfo.extras.getString(Notification.EXTRA_SUB_TEXT)
 //
 //        Log.d("NotificationListener","onNotificationRemoved - title : $title, text : $text, subText : $subText")
+
     }
 
     private fun checkPermission():Boolean{
@@ -129,6 +149,12 @@ class NotificationListener : NotificationListenerService() {
             TODO("VERSION.SDK_INT < TIRAMISU")
         }
        return permissionStatus == PackageManager.PERMISSION_GRANTED && checkSelfPermission( Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun checkPayment(str:String):Boolean{
+        val items =arrayOf("Confirmación de Pago", "te ha plineado","confirmacion de pago")
+        val item = items.find { it in str }
+        return item!=null
     }
 
 }

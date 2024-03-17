@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.compose.runtime.mutableStateListOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,9 +19,9 @@ import com.anthony.yapewhatsapp.presentation.ui.adapter.MessagesAdapter
 import com.anthony.yapewhatsapp.presentation.viewmodel.HomeViewModel
 import com.anthony.yapewhatsapp.util.collectFlow
 import com.anthony.yapewhatsapp.util.getDouble
+import com.anthony.yapewhatsapp.util.lstPackages
 import com.anthony.yapewhatsapp.util.packageInterbank
 import com.anthony.yapewhatsapp.util.packagePlin
-import com.anthony.yapewhatsapp.util.packagePrueba
 import com.anthony.yapewhatsapp.util.packageYape
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +47,6 @@ class PaymentsReceived : Fragment(),MessageCallback{
         binding = FragmentPaymentsReceivedBinding.inflate(inflater,container,false)
         return binding.root
     }
-    private val apps = listOf(packageYape, packagePlin, packageInterbank, packagePrueba)
     private var today: String = Date().let { SimpleDateFormat("yyyy-MM-dd").format(it) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,12 +60,12 @@ class PaymentsReceived : Fragment(),MessageCallback{
         /**RECYCLER ADAPTER**/
 
         val manager = LinearLayoutManager(this.context,  LinearLayoutManager.VERTICAL, false)
-        val adapter: MessagesAdapter = MessagesAdapter(this)
+        val adapter = MessagesAdapter(this)
         binding.rclMessages.layoutManager=manager
         binding.rclMessages.adapter=adapter
 
         /**Launch messages from database**/
-        lifecycleScope.collectFlow(homeViewModel.filterByApp(apps,today)){messages->
+        lifecycleScope.collectFlow(homeViewModel.filterByApp(lstPackages,today)){messages->
             if(messages!=null){
                 adapter.submitList(messages)
                 addAmount(messages)
@@ -73,7 +73,7 @@ class PaymentsReceived : Fragment(),MessageCallback{
         }
 
         binding.filterAll.setOnClickListener {
-            lifecycleScope.collectFlow(homeViewModel.filterByApp(apps,today)){messages->
+            lifecycleScope.collectFlow(homeViewModel.filterByApp(lstPackages,today)){messages->
                 if(messages!=null){
                     adapter.submitList(messages)
                     addAmount(messages)
@@ -103,6 +103,22 @@ class PaymentsReceived : Fragment(),MessageCallback{
         binding.btnReport.setOnClickListener {
             navController.navigate(R.id.action_paymentsReceived_to_reportView)
         }
+
+
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.paymentsReceived) {
+                    return
+                }
+                isEnabled = false
+
+
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
     }
 
 

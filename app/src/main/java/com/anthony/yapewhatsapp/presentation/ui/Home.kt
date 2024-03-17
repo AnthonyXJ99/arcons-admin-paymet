@@ -6,17 +6,23 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.anthony.yapewhatsapp.R
 import com.anthony.yapewhatsapp.databinding.ActivityMainBinding
+import com.anthony.yapewhatsapp.presentation.viewmodel.MainViewModel
 import com.anthony.yapewhatsapp.service.NotificationListener
 import com.anthony.yapewhatsapp.service.NotificationWorker
+import com.anthony.yapewhatsapp.util.collectFlow
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 
 @AndroidEntryPoint
@@ -24,6 +30,8 @@ class Home : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     private val REQUEST_CODE_NOTIFICATIONS= 123
     private var foreGroundServiceIntent: Intent? =null
+
+    private val viewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityMainBinding.inflate(layoutInflater)
@@ -36,8 +44,29 @@ class Home : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         /**isSessionActive**/
-        binding.bottomNavigation.isVisible=true
+        lifecycleScope.collectFlow(viewModel.isSession()){user->
+            if(user==null){
+                binding.bottomNavigation.visibility=View.GONE
+                Log.d("MI USER", "SIN DATOS $user")
+                navController.navigate(R.id.welcomeView)
+            }else{
+                if (!user.isActive){
+                    navController.navigate(R.id.activateConfirmView)
+                    binding.bottomNavigation.visibility=View.GONE
+                }else{
+                    binding.bottomNavigation.visibility=View.VISIBLE
 
+                    delay(3500)
+                    isActiveSession()
+                }
+                Log.d("MI USER", "CON $user")
+            }
+
+        }
+
+    }
+
+    private fun isActiveSession(){
         /**Notification permission**/
         val permissionStatus = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             applicationContext.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
@@ -52,7 +81,11 @@ class Home : AppCompatActivity() {
         } else {
             // El permiso no está concedido
             // Solicitar el permiso al usuario
-            val permissions = arrayOf(Manifest.permission.POST_NOTIFICATIONS,Manifest.permission.SEND_SMS,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
+            val permissions = arrayOf(
+                Manifest.permission.POST_NOTIFICATIONS,
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
             requestPermissions(permissions, REQUEST_CODE_NOTIFICATIONS)
         }
 
@@ -64,8 +97,6 @@ class Home : AppCompatActivity() {
 
         foreGroundServiceIntent= Intent(this, NotificationWorker::class.java)
         startService(foreGroundServiceIntent)
-
-
 
     }
 

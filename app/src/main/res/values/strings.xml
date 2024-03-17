@@ -40,4 +40,7 @@
     <string name="pagos_de_hoy">Pagos de hoy</string>
     <string name="por_fecha">Por Fecha</string>
     <string name="pdf_download">Descargar</string>
+    <string name="msg_activation_device">Dispositivo registrado, esperando la activación</string>
+    <string name="id_activation_device">ID:</string>
+    <string name="btn_solicitar_activacion">Solicitar Activación</string>
 </resources>

@@ -75,8 +75,20 @@
             android:layout_marginEnd="10dp"
             android:contentDescription="@string/deleteitem"
             app:cornerRadius="10dp"
-            app:icon="@drawable/iconex_line_two_tone_trash_can"/>
+            app:icon="@drawable/iconex_line_two_tone_trash_can" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:padding="2dp"
+        android:text="•"
+
+        android:textAlignment="textEnd"
+        android:textColor="#009655"
+        android:textSize="36sp" />
 
 </com.google.android.material.card.MaterialCardView>

@@ -18,10 +18,7 @@ import com.anthony.yapewhatsapp.presentation.viewmodel.ReportViewModel
 import com.anthony.yapewhatsapp.util.GenerateReport
 import com.anthony.yapewhatsapp.util.collectFlow
 import com.anthony.yapewhatsapp.util.htmlToPdfString
-import com.anthony.yapewhatsapp.util.packageInterbank
-import com.anthony.yapewhatsapp.util.packagePlin
-import com.anthony.yapewhatsapp.util.packagePrueba
-import com.anthony.yapewhatsapp.util.packageYape
+import com.anthony.yapewhatsapp.util.lstPackages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.textfield.TextInputEditText
@@ -37,7 +34,6 @@ class ReportView : Fragment() {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel by viewModels<ReportViewModel>()
 
-    private val apps = listOf(packageYape, packagePlin, packageInterbank, packagePrueba)
     private var today: String = Date().let { SimpleDateFormat("yyyy-MM-dd").format(it) }
 
     private var startDateReport: Long? =null
@@ -65,7 +61,7 @@ class ReportView : Fragment() {
         /**load initial report**/
         getDateNow()
 
-       lifecycleScope.collectFlow(viewModel.filterByApp(apps,today)){
+       lifecycleScope.collectFlow(viewModel.filterByApp(lstPackages,today)){
            if (!it.isNullOrEmpty()) {
                GenerateReport(it,binding.reportGeneratedView,today,today).loadReport()
            }else{
@@ -95,7 +91,7 @@ class ReportView : Fragment() {
 //        }
     }
 
-    private fun setDate(editText:TextInputEditText){
+    private fun setDate(editText:TextInputEditText,){
         val builder = MaterialDatePicker.Builder.datePicker()
         val picker = builder.build()
 
@@ -105,6 +101,14 @@ class ReportView : Fragment() {
             val dateStr= date.let { SimpleDateFormat("yyyy-MM-dd").format(it) }
 //            val formattedDate = SimpleDateFormat("yyyy-MM-dd").format(selectedDate)
             editText.setText(dateStr)
+
+//            val str1= binding.inputStartDate.text.toString()
+//            val str2=binding.inputEndDate.text.toString()
+//            if (checkDate(str1,str2)){
+//                Toast.makeText(requireContext(),"FECHAS IGUALES",Toast.LENGTH_LONG).show()
+//            }else{
+//                Toast.makeText(requireContext(),"FECHAS NO IGUALES",Toast.LENGTH_LONG).show()
+//            }
             filterByDate()
         }
 
@@ -134,13 +138,17 @@ class ReportView : Fragment() {
     private fun filterByDate(){
         val start= binding.inputStartDate.text.toString()
         val end=binding.inputEndDate.text.toString()
-        lifecycleScope.collectFlow(viewModel.filterByDate(apps,start,end)){
+        lifecycleScope.collectFlow(viewModel.filterByDate(lstPackages,"$start 00:00:00","$end 23:59:00")){
             if(!it.isNullOrEmpty()){
                 GenerateReport(it,binding.reportGeneratedView,start,end).loadReport()
             }else{
                 binding.reportGeneratedView.loadDataWithBaseURL(null,htmlToPdfString,"text/html","UTF-8",null)
             }
         }
+    }
+
+    private fun checkDate(start:String, end:String):Boolean{
+        return start == end
     }
 
 

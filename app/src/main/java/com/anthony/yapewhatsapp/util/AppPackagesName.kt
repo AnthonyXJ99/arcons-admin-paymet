@@ -1,9 +1,13 @@
 package com.anthony.yapewhatsapp.util
 
 const val packageYape:String ="com.bcp.innovacxion.yapeapp"
-const val packagePlin:String ="pe.com.interbank.mobilebanking"
-const val packageInterbank:String ="pe.com.interbank.mpay.customer"
+const val packagePlin:String ="pe.com.interbank.mpay.customer"
+const val packageInterbank:String ="pe.com.interbank.mobilebanking"
+const val packageBBVA:String=""
+const val packageScotiabank=""
 const val packagePrueba:String ="com.whatsapp"
+
+val lstPackages: List<String> = listOf(packageYape, packagePlin, packageInterbank)
 
 const val htmlToPdfString= """
 

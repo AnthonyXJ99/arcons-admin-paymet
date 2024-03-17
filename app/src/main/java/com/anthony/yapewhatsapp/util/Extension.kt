@@ -1,5 +1,7 @@
 package com.anthony.yapewhatsapp.util
 
+import com.anthony.yapewhatsapp.api.DeviceResponse
+import com.anthony.yapewhatsapp.domain.model.UserEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
@@ -15,6 +17,13 @@ fun String.getDouble():Double{
     val number = regex.find(this)?.value!!.toDouble()
     return number
 }
+
+fun DeviceResponse.toUserEntity():UserEntity{
+    return UserEntity(email=this.email, mac = this.mac, name = this.name, phone = this.phone, isActive = this.isActive)
+}
+
+
+
 
 fun getName(str:String): String {
     var name=""

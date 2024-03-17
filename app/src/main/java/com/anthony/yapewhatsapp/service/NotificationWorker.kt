@@ -43,9 +43,6 @@ class NotificationWorker: Service(){
         return START_STICKY
     }
 
-    /*private fun doTask() {
-        TODO("Not yet implemented")
-    }*/
 
     private fun showNofication(content: String): Notification {
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
