@@ -21,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class ActivateConfirmView : Fragment() {
@@ -48,26 +47,23 @@ class ActivateConfirmView : Fragment() {
                val result=confirmationView.verificationDevice(binding.txtEmei.text.toString().trim())
                if (result.status==200){
                    if (result.data.isActive){
-                       withContext(Dispatchers.Main){
-                           confirmationView.updateUser()
-                           isProcess=false
-                           this.cancel()
-                       }
+                       confirmationView.updateUser()
+                       isProcess=false
+                       this.cancel()
                    }
-
                }
                Log.d("RESPONSE","$result")
-               delay(3500)
+               delay(5000)
            }
         }
 
         if (!isProcess){
-            navController.navigate(R.id.action_activateConfirmView_to_paymentsReceived)
+            navController.navigate(R.id.paymentsReceived)
         }
 
         binding.btnGoToHome.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://wa.me/51935211480?text=Hola%20estoy%20a%20la%20Espera%20la%20activación%20de%20la%20Aplicación,%20mi%20id:")
+            intent.data = Uri.parse("https://wa.me/51935211480?text=Hola%20estoy%20a%20la%20espera%20la%20activación%20de%20la%20aplicación,%20mi%20id:%20${binding.txtEmei.text.toString()}")
             startActivity(intent)
 //            job.cancel()
 //            isProcess=false

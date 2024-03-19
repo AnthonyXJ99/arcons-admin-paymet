@@ -1,5 +1,6 @@
 package com.anthony.yapewhatsapp.di
 
+import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import com.anthony.yapewhatsapp.data.dao.ContactDao
@@ -24,6 +25,12 @@ object AppModule {
 
     @Provides
     fun provideIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @Provides
+    fun provideContext(application: Application): Context {
+        return application.applicationContext
+    }
+
 
     @Provides
     @Singleton

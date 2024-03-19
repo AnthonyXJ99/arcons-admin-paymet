@@ -80,7 +80,7 @@ class RegisterView : Fragment() {
                         val msg=viewModelRegister.getMessageResponse().value ?:"Intentelo nuevamante"
                         if (status==200){
                             delay(1500)
-                            navController!!.navigate(R.id.action_registerView_to_activateConfirmView)
+                            navController!!.navigate(R.id.activateConfirmView)
                         }else{
                             isLoading(false)
                             showMessage(msg)

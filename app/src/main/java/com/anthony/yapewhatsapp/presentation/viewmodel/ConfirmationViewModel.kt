@@ -1,5 +1,6 @@
 package com.anthony.yapewhatsapp.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.anthony.yapewhatsapp.api.repository.DeviceRepository
@@ -18,6 +19,7 @@ class ConfirmationViewModel @Inject constructor(private val userRepository: User
     suspend fun verificationDevice(mac:String) = deviceRepository.verifyDevice(mac)
 
     fun updateUser(){
+        Log.d("TAREA","TMR")
         viewModelScope.collectFlow(isSession()){user->
             if (user!=null){
                 user.isActive=true

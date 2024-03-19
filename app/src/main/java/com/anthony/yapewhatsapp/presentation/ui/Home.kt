@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.anthony.yapewhatsapp.R
@@ -20,9 +22,13 @@ import com.anthony.yapewhatsapp.databinding.ActivityMainBinding
 import com.anthony.yapewhatsapp.presentation.viewmodel.MainViewModel
 import com.anthony.yapewhatsapp.service.NotificationListener
 import com.anthony.yapewhatsapp.service.NotificationWorker
-import com.anthony.yapewhatsapp.util.collectFlow
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 @AndroidEntryPoint
@@ -44,26 +50,62 @@ class Home : AppCompatActivity() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         /**isSessionActive**/
-        lifecycleScope.collectFlow(viewModel.isSession()){user->
-            if(user==null){
-                binding.bottomNavigation.visibility=View.GONE
-                Log.d("MI USER", "SIN DATOS $user")
-                navController.navigate(R.id.welcomeView)
-            }else{
-                if (!user.isActive){
-                    navController.navigate(R.id.activateConfirmView)
-                    binding.bottomNavigation.visibility=View.GONE
-                }else{
-                    binding.bottomNavigation.visibility=View.VISIBLE
-
-                    delay(3500)
-                    isActiveSession()
-                }
-                Log.d("MI USER", "CON $user")
+        lifecycleScope.launch(Dispatchers.IO) {
+            val myFlow = flow {
+                emit(checkUpdate())
+                delay(300)
+                emit(checkView(navController))
             }
+            myFlow.collect{
 
+            }
         }
 
+
+//        lifecycleScope.collectFlow(viewModel.isSession()){user->
+//
+//
+//        }
+
+    }
+
+    private fun checkUpdate(){
+        lifecycleScope.launch (Dispatchers.IO){
+            viewModel.checkedUser()
+        }
+    }
+    private fun checkView(navController:NavController){
+        lifecycleScope.launch(Dispatchers.IO) {
+            val flow= viewModel.isSession()
+            flow.collect{user->
+                withContext(Dispatchers.Main){
+                    if(user==null){
+                        binding.bottomNavigation.visibility= View.GONE
+                        Log.d("MI USER", "SIN DATOS $user")
+                        navController.navigate(R.id.welcomeView)
+                    }else{
+                        if (!user.isActive){
+                            navController.navigate(R.id.activateConfirmView)
+                            binding.bottomNavigation.visibility= View.GONE
+                        }else{
+                            navController.navigate(R.id.paymentsReceived)
+                            binding.bottomNavigation.visibility= View.VISIBLE
+                            delay(1000)
+                            isActiveSession()
+                            this.cancel()
+                        }
+                        Log.d("MI USER", "CON $user")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getMac(): String {
+        return Settings.Secure.getString(
+            contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
     }
 
     private fun isActiveSession(){

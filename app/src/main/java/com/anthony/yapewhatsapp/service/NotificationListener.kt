@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
@@ -66,7 +67,7 @@ class NotificationListener : NotificationListenerService() {
             //&& titleMessage.toString().contains("Confirmación de Pago")|| titleMessage.toString().contains("")
 
             if (titleMessage.isNullOrEmpty() || messageContent.isNullOrEmpty()){
-                Log.d("DATAAAAAAAAAAAAAAA1","$titleMessage, $messageContent")
+                Log.d("return value: ","$titleMessage, $messageContent")
                 return
             }else{
                 Log.d("DATAAAAAAAAAAAAAAA2","$titleMessage, $messageContent")
@@ -74,7 +75,7 @@ class NotificationListener : NotificationListenerService() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 contactDao.getAll().collect{ contacts->
-                    if (!checkPayment(messageContent.toString())){
+                    if (!checkPayment("${titleMessage} ${messageContent}")){
                         return@collect
                     }
                     if(titleMessage.isNullOrEmpty()){
@@ -90,19 +91,7 @@ class NotificationListener : NotificationListenerService() {
                                 applicationContext,
                                 SmsManager::class.java
                             )?.sendTextMessage(phoneNumber, null, messageContent.toString(), null, null)
-
-//                           synchronized(cicloTerminado) {
-//                               cicloTerminado = true
-//                               cicloTerminado.notify()
-//                           }
-
                         }
-
-//                        synchronized(cicloTerminado) {
-//                            while (cicloTerminado as Boolean) {
-//                                cicloTerminado.wait()
-//                            }
-//                        }
 
                         val message = MessageModel(
                             title = titleMessage.toString() ,
@@ -117,11 +106,10 @@ class NotificationListener : NotificationListenerService() {
                         cancelNotification(sbn.key)
                         /**clear**/
                         titleMessage=null
-//                        messageContent=""
-//                        subMessage=""
-//                        packageName=""
                     }else{
-                        Toast.makeText(applicationContext,"Necesitas Agregar al menos un número en Contactos",Toast.LENGTH_LONG).show()
+                        withContext(Dispatchers.Main){
+                            Toast.makeText(applicationContext,"Necesitas Agregar al menos un número en Contactos",Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
             }
